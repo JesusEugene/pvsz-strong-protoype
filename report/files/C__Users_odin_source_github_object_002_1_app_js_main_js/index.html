@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - C:/Users/odin/source/github/object-002-1/app/js/main.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>C:/Users/odin/source/github/object-002-1/app/js/main.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">67.44</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">340</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">96.15</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">3.62</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">// wariables
+const width = 1000;
+const height = 600;
+const cellSize = 100;
+const cellGap = 3;
+const gameGrid = [];
+const controlsBar = {
+    width: canvas.width,
+    height: cellSize,
+};
+const defenders = [];
+const enemies = [];
+const projectiles = [];
+const resources = [];
+const amounts = [20, 30, 40];
+let score = 0;
+const winningScore = 10;
+//mouse
+let mouse = {
+    x: undefined,
+    y: undefined,
+    width: 0.1,
+    height: 0.1,
+};
+let numberOfResources = 100;
+let canvasPosition;
+let frame = 0;
+let enemiesInterval = 1020;
+let gameOver = false;
+class cell {
+    /**
+     * Конструктор клетки
+     * @param  {} x - координата x
+     * @param  {} y - координата y
+     */
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.width = cellSize - cellGap;
+        this.height = cellSize - cellGap;
+    }
+    update(deltatime) {}
+    draw(ctx) {
+        if (mouse.x &amp;&amp; mouse.y &amp;&amp; collision(this, mouse)) {
+            ctx.strokeStyle = &quot;black&quot;;
+            ctx.strokeRect(this.x, this.y, cellSize, cellSize);
+        }
+    }
+}
+class Resource {
+    /**
+     * Конструктор класса ресурсов
+     */
+    constructor() {
+        this.x = Math.random() * (canvas.width - cellSize);
+        this.y = canvas.height - cellSize * 4 + Math.random() * cellSize * 2;
+        this.width = cellSize * 0.6;
+        this.height = cellSize * 0.6;
+        this.amount = amounts[Math.floor(Math.random() * amounts.length)];
+        this.markedForDeletion = false;
+    }
+    draw(ctx) {
+        ctx.fillStyle = &quot;yellow&quot;;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.fillStyle = &quot;black&quot;;
+        ctx.font = &quot;30px Arial&quot;;
+        ctx.fillText(this.amount, this.x + 15, this.y + 30);
+    }
+    update() {
+        if (frame % 100 === 0) {
+            this.amount++;
+        }
+    }
+}
+
+class Projectile {
+    /**
+     * конструктор класса снаряда
+     * @param  {} x - координата x
+     * @param  {} y - координата y
+     */
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.width = 10;
+        this.height = 10;
+        this.power = 20;
+        this.speed = 4;
+    }
+    update(deltatime) {
+        this.x += this.speed;
+    }
+    draw(ctx) {
+        ctx.fillStyle = &quot;black&quot;;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.width, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+class Defender {
+    /**
+     * Конструктор класса защитника
+     * @param  {} x - координата x
+     * @param  {} y - координата y
+     */
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.width = cellSize - cellGap * 2;
+        this.height = cellSize - cellGap * 2;
+        this.shooting = false;
+        this.health = 100;
+        this.timer = 0;
+    }
+    update() {
+        this.timer++;
+        if (this.shooting &amp;&amp; this.timer % 100 === 0) {
+            projectiles.push(
+                new Projectile(
+                    this.x + this.width / 2,
+                    this.y + this.height / 2
+                )
+            );
+        }
+    }
+    draw(ctx) {
+        ctx.fillStyle = &quot;blue&quot;;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.fillStyle = &quot;white&quot;;
+        ctx.font = &quot;30px Bangers&quot;;
+        ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 30);
+    }
+}
+
+class Enemy {
+    /**
+     * Конструктор класса врага
+     * @param  {} verticalPosition - вертикальная позиция
+     */
+    constructor(verticalPosition) {
+        this.x = width;
+        this.y = verticalPosition;
+        this.width = cellSize - cellGap * 2;
+        this.height = cellSize - cellGap * 2;
+        this.speed = Math.random() * 0.2 + 0.4;
+        this.movement = this.speed;
+        this.health = 100;
+        this.maxHealth = this.health;
+    }
+    update() {
+        this.x -= this.movement;
+    }
+    draw(ctx) {
+        ctx.fillStyle = &quot;red&quot;;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.fillStyle = &quot;white&quot;;
+        ctx.font = &quot;30px Bangers&quot;;
+        ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 30);
+    }
+}
+/**
+ * Функция для отрисовки игрового поля
+ */
+function createGrid() {
+    for (let y = cellSize; y &lt; height; y += cellSize) {
+        for (let x = 0; x &lt; width; x += cellSize) {
+            gameGrid.push(new cell(x, y));
+        }
+    }
+}
+function handleGameGrid(ctx) {
+    for (let i = 0; i &lt; gameGrid.length; i++) {
+        gameGrid[i].draw(ctx);
+    }
+}
+
+function handleProjectiles(ctx) {
+    for (let i = 0; i &lt; projectiles.length; i++) {
+        projectiles[i].update();
+        projectiles[i].draw(ctx);
+        for (let j = 0; j &lt; enemies.length; j++) {
+            if (
+                enemies[j] &amp;&amp;
+                projectiles[i] &amp;&amp;
+                collision(projectiles[i], enemies[j])
+            ) {
+                enemies[j].health -= projectiles[i].power;
+                projectiles.splice(i, 1);
+                i--;
+            }
+        }
+        if (projectiles[i] &amp;&amp; projectiles[i].x &gt; width - cellSize) {
+            projectiles.splice(i, 1);
+            i--;
+        }
+    }
+}
+
+function handleDefender(ctx) {
+    for (let i = 0; i &lt; defenders.length; i++) {
+        defenders[i].draw(ctx);
+        defenders[i].update(ctx);
+        // console.log(enemies.find((enemy) =&gt; enemy.y === defenders[i].y));
+        if (enemies.find((enemy) =&gt; enemy.y === defenders[i].y)) {
+            defenders[i].shooting = true;
+        } else {
+            defenders[i].shooting = false;
+        }
+        for (let j = 0; j &lt; enemies.length; j++) {
+            if (defenders[i] &amp;&amp; collision(defenders[i], enemies[j])) {
+                enemies[j].movement = 0;
+                defenders[i].shooting = true;
+                defenders[i].health -= 0.2;
+            }
+            if (defenders[i] &amp;&amp; defenders[i].health &lt;= 0) {
+                defenders.splice(i, 1);
+                i--;
+                enemies[j].movement = enemies[j].speed;
+            }
+        }
+    }
+}
+function handleEnemies(ctx) {
+    for (let i = 0; i &lt; enemies.length; i++) {
+        enemies[i].update();
+        enemies[i].draw(ctx);
+        if (enemies[i].x &lt; 0) {
+            gameOver = true;
+        }
+        if (enemies[i].health &lt;= 0) {
+            let gainedResources = enemies[i].maxHealth / 10;
+            numberOfResources += gainedResources;
+            score++;
+            enemies.splice(i, 1);
+            i--;
+        }
+    }
+    if (frame % enemiesInterval === 0) {
+        let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize;
+        enemies.push(new Enemy(verticalPosition));
+        if (enemiesInterval &gt;= 100) enemiesInterval -= 25;
+    }
+}
+
+function handleResources(ctx) {
+    if (frame % 300 === 0) {
+        resources.push(new Resource());
+    }
+
+    for (let i = 0; i &lt; resources.length; i++) {
+        resources[i].draw(ctx);
+        if (
+            resources[i] &amp;&amp;
+            mouse.x &amp;&amp;
+            mouse.y &amp;&amp;
+            collision(resources[i], mouse)
+        ) {
+            numberOfResources += resources[i].amount;
+            resources.splice(i, 1);
+            i--;
+        }
+    }
+}
+
+function handleGameStatus(ctx) {
+    ctx.fillStyle = &quot;black&quot;;
+    ctx.font = &quot;30px Bangers&quot;;
+
+    ctx.fillText(&quot;Resources: &quot; + numberOfResources, 20, 30);
+    if (gameOver) {
+        ctx.fillStyle = &quot;black&quot;;
+        ctx.font = &quot;90px Bangers&quot;;
+        ctx.fillText(&quot;GAME OVER&quot;, 135, 330);
+    }
+    ctx.fillText(&quot;Score: &quot; + score, 20, 55);
+}
+
+function collision(first, second) {
+    return (
+        first.x &lt; second.x + second.width &amp;&amp;
+        first.x + first.width &gt; second.x &amp;&amp;
+        first.y &lt; second.y + second.height &amp;&amp;
+        first.y + first.height &gt; second.y
+    );
+}
+window.addEventListener(&quot;load&quot;, () =&gt; {
+    const canvas = document.getElementById(&quot;canvas&quot;);
+    const ctx = canvas.getContext(&quot;2d&quot;);
+    canvas.width = width;
+    canvas.height = height;
+    canvas.addEventListener(&quot;mousemove&quot;, function (e) {
+        mouse.x =
+            (e.clientX - canvasPosition.left) *
+            (canvas.width / canvasPosition.width);
+        mouse.y =
+            (e.clientY - canvasPosition.top) *
+            (canvas.height / canvasPosition.height);
+    });
+    canvas.addEventListener(&quot;mouseleave&quot;, function () {
+        mouse.x = undefined;
+        mouse.y = undefined;
+    });
+    canvas.addEventListener(&quot;click&quot;, function () {
+        const gridPositionX = mouse.x - (mouse.x % cellSize);
+        const gridPositionY = mouse.y - (mouse.y % cellSize);
+        if (gridPositionY &lt; cellSize) return;
+        for (let i = 0; i &lt; defenders.length; i++) {
+            if (
+                defenders[i].x === gridPositionX &amp;&amp;
+                defenders[i].y === gridPositionY
+            )
+                return;
+        }
+        let defenderCost = 100;
+        if (numberOfResources &gt;= defenderCost) {
+            defenders.push(new Defender(gridPositionX, gridPositionY));
+            numberOfResources -= defenderCost;
+        }
+    });
+    createGrid();
+    var lastTime = 0;
+    function animate(timeStamp) {
+        ctx.clearRect(0, 0, width, height);
+        const deltaTime = timeStamp - lastTime;
+        lastTime = timeStamp;
+        canvasPosition = canvas.getBoundingClientRect();
+
+        handleGameGrid(ctx);
+
+        handleDefender(ctx);
+        handleProjectiles(ctx);
+        handleEnemies(ctx);
+        handleResources(ctx);
+        handleGameStatus(ctx);
+        frame++;
+        if (!gameOver) requestAnimationFrame(animate);
+    }
+    animate(0);
+});</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ cyclomatic }} <br>
+    Length : {{ halstead.length }} <br>
+    Difficulty : {{ halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>
